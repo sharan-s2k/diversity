@@ -1,0 +1,2206 @@
+dtd pccd;
+
+/* There may be two versions, one for detailed and one for summary */
+
+tag pce-statistics-common {
+	tag pce-ip {
+		type ipaddr;
+		help "IP address of PCE";
+	}
+	tag local-ip {
+		type ipaddr;
+		help "Local IP address";
+	}
+	tag pce-priority {
+		type int;	
+		help "Priority";
+	}
+	tag pce-connection {
+		type string; 
+		help "Connection state (e.g. connecting/connected, disconnected)";
+	}
+	tag pce-status {
+		type string; 
+		help "A small but friendly message";
+	}
+	tag pce-session-type {
+		type string; 
+		help "A small but friendly message";
+	}
+	tag lsp-provisioning {
+		type string;
+		help "LSP provisioning ability";
+	}
+	tag pcupdate-empty-ero-action {
+		type string;
+		help "Action to be taken on empty ero in pcupdate";
+	}
+	tag p2mp-lsp-reporting {
+		type string;
+		help "P2MP LSP reporting ability";
+	}
+	tag p2mp-lsp-update {
+		type string;
+		help "P2MP LSP updating ability";
+	}
+	tag p2mp-lsp-init {
+		type string;
+		help "P2MP LSP initiating ability";
+	}
+	tag srv6-session-cap {
+		type string;
+		help "PCEP session SRv6 capable";
+	}
+	tag lsp-cleanup-timer {
+		type uint;
+		help "Negotiated LSP cleanup timer";
+	}
+	tag pce-mastership {
+		type string;
+		help "PCE-mastership (main or backup)";
+	}
+        tag pce-traffic-steering {
+                type string;
+                help "PCE Traffic Steering (FlowSpec)";
+        }
+    tag pce-multipath {
+        type string;
+        help "PCE-multipath status";
+    }
+    tag pcc-multipath {
+        type string;
+        help "PCC-multipath status";
+    }
+    tag pce-disjoint-association {
+        type string;
+        help "PCE-disjoint-association status";
+    }
+    tag pcc-disjoint-association {
+        type string;
+        help "PCC-disjoint-association status";
+    }
+	tag pce-max-unknown-msgs {
+		type int;
+		help "A small but friendly message";
+	}
+	tag pce-session-state {
+		type string;	
+		help "A small but friendly message";
+	}
+	tag keepalives-received {
+		type int;
+		help "Keepalives received total";
+	}
+	tag keepalives-sent {
+		type int;
+		help "Keepalives sent total";
+	}
+	tag dead-timer {
+		type int;
+		help "DeadTimer value (0 meaning disconnection from PCE)";
+	}
+	tag active-state-current {
+		type int;
+		help "Elapsed time as main PCE current session";
+	}
+	tag active-state-total {
+		type int;
+		help "Elapsed time as main PCE total";
+	}
+	tag unknown-ratio {
+		type int;
+		help "Current unknown messages per minute ratio";
+	}
+	tag session-failures {
+		type int;
+		help "Active state duration";
+	}
+	tag corrupted-messages {
+		type int;
+		help "Active state duration";
+	}
+	tag failed-computations {
+		type int;
+		help "Active state duration";
+	}
+	tag replies-timedout {
+		type int;
+		help "Active state duration";
+	}
+	tag delegation-timeout-set {
+		type int;
+		help "Delegation timeout set";
+	}
+	tag delegation-timeout {
+		type int;
+		help "Delegation timeout";
+	}
+	tag delegation-failures {
+		type int;
+		help "Delegation failures counter";
+	}
+	tag connection-active {
+		type int;
+		help "Time of PCE connection active";
+	}
+	tag connection-down {
+		type int;
+		help "Time of PCE connection down";
+	}
+    tag pcc-tls-enabled {
+        type string;
+        help "PCC TLS Status";
+    }
+    tag pce-tls-enabled {
+        type string;
+        help "PCE TLS Status";
+    }
+    tag session-tls-enabled {
+        type string;
+        help "Session TLS status";
+    }
+	
+	format pce-statistics-common-format {
+		fmtflag blank-line;
+		header "General\\n";
+		picture "
+    PCE IP address           : @
+    Local IP address         : @
+    Priority                 : @
+    Connection status        : @
+    PCE status               : @
+    Session type             : @
+    Session state            : @
+    LSP provisioning allowed : @
+    Pcupdate empty ero action: @
+    P2MP LSP report allowed  : @
+    P2MP LSP update allowed  : @
+    P2MP LSP init allowed    : @
+    Session SRv6 Capable     : @
+    LSP cleanup timer        : @ [s]
+    PCE-mastership           : @
+    PCE Traffic Steering     : @
+    PCE Multipath Capable    : @
+    PCC Multipath Capable    : @
+    PCE Diversity-Association Capable    : @
+    PCC Diversity-Association Capable    : @
+    Max unknown messages     : @
+    Keepalives received      : @
+    Keepalives sent          : @
+    Dead timer               : @ [s]
+    Elapsed as main current  : @ [s]
+    Elapsed as main total    : @ [s]
+    Unknown msgs/min rate    : @
+    Session failures         : @
+    Corrupted messages       : @
+    Delegation timeout set   : @
+    Delegation timeout in    : @ [s]
+    Delegation failures      : @
+    Connection active        : @ [s]
+    Connection down          : @ [s]
+    PCC TLS Enabled          : @
+    PCE TLS Enabled          : @
+    Session TLS Enabled      : @";
+	
+		line { 
+			field pce-ip;
+		}
+ 		line { 
+			field local-ip;
+		}
+		line { 
+			field pce-priority;
+		}
+		line { 
+			field pce-connection;
+		}
+		line { 
+			field pce-status;
+		}
+		line { 
+			field pce-session-type;
+		}
+		line { 
+			field pce-session-state;
+		}
+		line { 
+			field lsp-provisioning;
+		}
+		line { 
+			field pcupdate-empty-ero-action;
+		}
+		line { 
+			field p2mp-lsp-reporting;
+		}
+		line { 
+			field p2mp-lsp-update;
+		}
+		line { 
+			field p2mp-lsp-init;
+		}
+		line { 
+			field srv6-session-cap;
+		}
+		line { 
+			field lsp-cleanup-timer;
+		}
+		line {
+			field pce-mastership;
+		}
+                line {
+                        field pce-traffic-steering;
+                }
+        line {
+            field pce-multipath;
+        }
+        line {
+            field pcc-multipath;
+        }
+        line {
+            field pce-disjoint-association;
+        }
+        line {
+            field pcc-disjoint-association;
+        }
+		line { 
+			field pce-max-unknown-msgs;
+		}
+		line { 
+			field keepalives-received;
+		}
+		line { 
+			field keepalives-sent;
+		}
+		line { 
+			field dead-timer;
+		}
+		line { 
+			field active-state-current;
+		}
+		line { 
+			field active-state-total;
+		}
+		line { 
+			field unknown-ratio;
+		}
+		line { 
+			field session-failures;
+		}
+		line { 
+			field corrupted-messages;
+		}
+		line { 
+			field delegation-timeout-set;
+		}
+		line { 
+			field delegation-timeout;
+		}
+		line { 
+			field delegation-failures;
+		}
+		line { 
+			field connection-active;
+		}
+		line { 
+			field connection-down;
+		}
+        line {
+            field pcc-tls-enabled;
+        }
+        line {
+            field pce-tls-enabled;
+        }
+        line {
+            field session-tls-enabled;
+        }
+	}
+}
+
+tag pce-statistics-counters {
+	tag pce-counter {
+		flag multiple;
+
+		tag counter-name {
+			type string;	
+			help "Counter name";
+		}			
+		tag count-total {
+			type int;
+			help "Total count";
+		}
+		tag count-5min {
+			type int;
+			help "Last 5 minutes";
+		}
+		tag count-hour {
+			type int;
+			help "Last hour";
+		}
+	}
+		
+	format pce-statistics-counters-format {
+		header "\\nCounters\\n";
+		picture "    @<<<<<<<<<<<<<<<    Total: @<<<<<<<<    last 5min: @<<<<<<<<    last hour: @<<<<<<<<";
+		line {
+			field counter-name;
+			field count-total;
+			field count-5min;
+			field count-hour;
+		}
+	}
+}
+
+tag pce-statistics-timers {
+	tag pce-timer {
+		flag multiple;
+
+		tag timer-name {
+			type string;	
+			help "Timer name";
+		}			
+		tag timer-keepalive {
+			type int;
+			help "Keepalive timer";
+		}
+		tag timer-dead {
+			type int;
+			help "Dead timer";
+		}
+		tag timer-lsp-cleanup {
+			type uint;
+			help "LSP cleanup timer";
+		}
+	}
+		
+	format pce-statistics-timers-format {
+		header "\\nTimers\\n";
+		picture "    @<<<<  Keepalive timer: @>>> [s]  Dead timer: @>>> [s]  LSP cleanup timer: @>>> [s]";
+		line {
+			field timer-name;
+			field timer-keepalive;
+			field timer-dead;
+			field timer-lsp-cleanup;
+		}
+	}
+}
+
+tag pce-statistics-last-error {
+        tag pce-last-error {
+                flag multiple;
+
+                tag pce-last-error-name {
+                        type string;
+                }
+
+                tag pce-last-error-entry {
+                        flag multiple;
+
+                        tag pce-error-type {
+                                type int;
+                        }
+                        tag pce-error-value {
+                                type int;
+                        }
+                }
+
+                format pce-last-error-format {
+                        header "\\nLast errors\\n"
+                        picture "
+    @
+            Type: @<<<<<<<<<    Value: @<<<<<<<<";
+                        line {
+                                field pce-last-error-name;
+                        }
+                        line {
+                                field pce-error-type;
+                                field pce-error-value;
+                        }
+                }
+        }
+}
+
+tag pce-statistics-errors {
+	tag pce-error {
+		flag multiple;
+			
+		tag pce-error-name {
+			type string;
+		}
+		
+		tag pce-error-entry {
+			flag multiple;
+			
+			tag pce-error-type {
+				type int;
+			}
+			tag pce-error-value {
+				type int;
+			}
+			tag pce-error-count {
+				type int;
+			}
+		}
+		
+		format pce-error-format {
+			header "\\nErrors\\n"
+			picture "
+    @
+	    Type: @<<<<<<<<<    Value: @<<<<<<<<    Count: @<<<<<<<<<<";
+			line { 
+				field pce-error-name;
+			}
+			line { 
+				field pce-error-type;
+				field pce-error-value;
+				field pce-error-count;
+			}
+		}
+	}
+}
+
+tag pce-statistics-pcupdate-empty-ero-action {
+    tag stats-send-err {
+        type int;	
+        help "Sent err in response to Pcupdate containing empty-ero";
+    }
+    tag stats-tear-down-path {
+        type int;	
+        help "Teared down path in response to Pcupdate containing empty-ero";
+    }
+    tag stats-routing-decision {
+        type int;	
+        help "Path decision is taken by MPLS component in response to Pcupdate containing empty-ero";
+    }
+    tag stats-routing-decision_failed {
+        type int;	
+        help "Path decision is taken by MPLS component in response to Pcupdate containing empty-ero, but operation failed";
+    }
+
+    format pce-statistics-pcupdate-empty-ero-action-format {
+        header "\\nPcupdate empty ero action counters\\n";
+        picture "
+    Send-err               : @
+    Tear down path         : @
+    Routing decision       : @
+    Routing decision failed: @";
+        line {
+            field stats-send-err;
+            field stats-tear-down-path;
+            field stats-routing-decision;
+            field stats-routing-decision_failed;
+        }
+    }
+}
+
+tag path-computation-client-statistics {
+	flag root;
+
+	/* display statistics per pce */
+	tag pce-statistics-response {
+		flag multiple;
+		
+		tag pce-id {
+			type string;
+			help "PCE IP/NAME1";
+		}
+		tag pce-statistics-common {
+			format pce-statistics-common-format;
+		}
+		tag pce-statistics-counters {
+			format pce-statistics-counters-format;
+		}
+		tag pce-statistics-timers {
+			format pce-statistics-timers-format;
+		}
+		tag pce-statistics-errors;
+                tag pce-statistics-last-error;
+		tag pce-statistics-pcupdate-empty-ero-action {
+			format pce-statistics-pcupdate-empty-ero-action-format;
+		}
+		
+		format pce-statistics-response-format {
+			picture "
+\\nPCE @\\n
+--------------------------------------------";
+	
+			line { 
+				field pce-id;
+			}
+		}
+	}
+
+	/* display error message in case of problem */
+	tag pccd-error-response {
+		tag pccd-error-code {
+			type int;
+			help "Operation error code";
+		}
+		tag pccd-error-message {
+			type string;
+			help "Operation error message";
+		}
+		
+		format pccd-error-response-format {
+			picture "Operation failed: @";
+			line {
+				field pccd-error-message;
+			}
+		}
+	}
+}
+
+tag path-computation-client-lsp {
+    flag root;
+    tag pcc-lsp-entry {
+        flag multiple;
+            
+        tag lsp-name {
+            type string;
+        }
+        tag template-name {
+            type string;
+        }
+        tag lsp-status {
+            type string;
+        }
+        tag lsp-id {
+            type int;
+        }
+        tag lsp-type {
+            type string;
+        }
+        tag lsp-controller {
+            type string;
+        }
+        tag lsp-setup-type {
+            type string;
+        }
+    }
+    format pcc-lsp-format {
+        header "\\n  Name                                Status            PLSP-Id  LSP-Type       Controller       Path-Setup-Type       Template \\n";
+        picture   "  @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<< @<<<<<<< @<<<<<<<<<<<<< @<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<@<<<<<<<<<<<<<<<";
+        line {
+            field lsp-name;
+            field lsp-status;
+            field lsp-id;
+            field lsp-type;
+            field lsp-controller;
+            field lsp-setup-type;
+            field template-name;
+
+        }
+    }
+}
+
+tag path-computation-client-lsp-ext-fs
+{
+    /* FlowSpec start */
+    tag pcc-traffic-steering-entry {
+        flag multiple;
+
+    tag fs-id {
+        type uint;
+    }
+    tag route-distinguisher {
+        type string;
+    }
+    tag source-prefix {
+        type string;
+    }
+    tag multi-group-prefix {
+        type string;
+    }
+    tag fs-state {
+        type string;
+    }
+    }
+    /* FlowSpec end */
+    format pcc-lsp-ext-fs-format {
+        header "    PCE Traffic Steering \\n";
+        picture   "
+        FS-ID                    : @
+          Route Distinguisher    : @
+          Source Prefix          : @
+          Multicast Group Prefix : @
+          State                  : @";
+        line {
+            field fs-id;
+        }
+        line {
+            field route-distinguisher;
+        }
+        line {
+            field source-prefix;
+        }
+        line {
+            field multi-group-prefix;
+        }
+        line {
+            field fs-state;
+        }
+    }
+}
+
+tag path-computation-client-lsp-extensive
+{
+    flag root;
+
+    tag pcc-lsp-ext-entry {
+    flag multiple;
+
+    tag lsp-name {
+        type string;
+    }
+    tag lsp-path-name {
+        type string;
+    }
+
+    tag lsp-src {
+        type string;
+    }
+    tag lsp-dst {
+        type string;
+    }
+    tag lsp-setup-type {
+        type string;
+    }
+    tag lsp-state {
+        type string;
+    }
+
+    tag lsp-active-path {
+        type string;
+    }
+    tag lsp-link {
+        type string;
+    }
+    tag lsp-type {
+        type string;
+    }
+    tag lsp-p2mp {
+        type string;
+    }
+    tag lsp-cspf {
+        type string;
+    }
+    tag lsp-ctrlr {
+        type string;
+    }
+    tag lsp-template {
+        type string;
+    }
+    tag lsp-plsp-id {
+        type int;
+    }
+    tag lsp-id {
+        type int;
+    }
+    tag lsp-path-binding-entry {
+        tag binding-type {
+            type string;
+        }
+        tag binding-value {
+            type uint;
+        }
+        format lsp-path-binding-entry-format {
+            header "Path Binding:\\n        Binding-type                    Binding value\\n";
+            picture                "        @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<";
+            line {
+                field binding-type;
+                field binding-value;
+            }
+        }
+    }
+    tag lsp-rsvp-err {
+        type int;
+    }
+    tag lsp-abw {
+        type int;
+    }
+    tag lsp-rro {
+        type string;
+    }
+    tag lsp-pce-ero {
+        type string;
+    }
+    tag lsp-rpd-ero {
+        type string;
+    }
+    tag lsp-conf-ero {
+        type string;
+    }
+    tag lsp-intended-bw {
+        type int;
+    }
+    tag lsp-actual-bw {
+        type int;
+    }
+    tag lsp-intended-metric-entry {
+        tag metric-type {
+            type string;
+        }
+        tag metric-bound {
+            type uint;
+        }
+        tag metric-optimization {
+            type string;
+        }
+        format lsp-intended-metric-entry-format {
+            header "Intended Metric:\\n        Metric type                     Bound             Optimization\\n";
+            picture                   "        @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<";
+            line {
+                field metric-type;
+                field metric-bound;
+                field metric-optimization;
+            }
+        }
+    }
+    tag lsp-actual-metric-entry {
+        tag metric-type {
+            type string;
+        }
+        tag metric-computed-value {
+            type uint;
+        }
+        format lsp-actual-metric-entry-format {
+            header "Actual Metric:\\n        Metric type                     Computed value\\n";
+            picture                 "        @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<";
+            line {
+                field metric-type;
+                field metric-computed-value;
+            }
+        }
+    }
+    tag lsp-route-metric {
+        type uint;
+    }
+    tag lsp-mapped-flowspec {
+        type string;
+    }
+    tag lsp-admin-groups {
+        flag multiple;
+
+        tag lsp-exclude-any {
+            type int;
+        }
+        tag lsp-include-any {
+            type int;
+        }
+        tag lsp-include-all {
+            type int;
+        }
+    }
+    tag lsp-priority {
+        flag multiple;
+
+        tag lsp-setup-prio {
+            type int;
+        }
+        tag lsp-hold-prio {
+            type int;
+        }
+    }
+    tag lsp-local-protection {
+    	type string;
+    }
+    tag lsp-association-entry {
+        tag association-type {
+            type string;
+        }
+        tag association-id {
+            type int;
+        }
+        tag association-source {
+            type string;
+        }
+        tag srpag-association-entry {
+            tag sr-color {
+                type uint;
+            }
+            tag sr-endpoint {
+                type string;
+            }
+            tag sr-proto-origin {
+                type string;
+            }
+            tag sr-originator-asn {
+                type uint;
+            }
+            tag sr-originator-ip {
+                type string;
+            }
+            tag sr-discriminator {
+                type uint;
+            }
+            tag sr-preference {
+                type uint;
+            }
+            format srpag-association-entry-format {
+                picture"
+                Color               : @
+                Endpoint            : @
+                Proto origin        : @
+                Originator ASN      : @
+                Originator address  : @
+                Discriminator       : @
+                Preference          : @";
+                line {
+                    field sr-color;
+                }
+                line {
+                    field sr-endpoint;
+                }
+                line {
+                    field sr-proto-origin;
+                }
+                line {
+                    field sr-originator-asn;
+                }
+                line {
+                    field sr-originator-ip;
+                }
+                line {
+                    field sr-discriminator;
+                }
+                line {
+                    field sr-preference;
+                }
+            }
+        }
+        tag dag-association-entry {
+            tag config-disjoint-type {
+                type string;
+            }
+            tag config-strict {
+                type string;
+            }
+            tag config-shortest-path {
+                type string;
+            }
+            tag status-disjoint-type {
+                type string;
+            }
+            tag status-strict {
+                type string;
+            }
+            tag status-shortest-path {
+                type string;
+            }
+            format dag-association-entry-format {
+                picture"
+                Configured-disjoint-type       : @
+                Configured-Strictness          : @
+                Configured-Shortest-path-flag  : @
+                Actual-disjoint-type           : @
+                Actual-Strictness              : @
+                Actual-Shortest-path-flag      : @";
+                line {
+                    field config-disjoint-type;
+                }
+                line {
+                    field config-strict;
+                }
+                line {
+                    field config-shortest-path;
+                }
+                line {
+                    field status-disjoint-type;
+                }
+                line {
+                    field status-strict;
+                }
+                line {
+                    field status-shortest-path;
+                }
+            }
+        }
+        format lsp-association-entry-format {
+            header "LSP Association:\\n        Association-type                Association ID    Association Source\\n";
+            picture                   "        @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<";
+            line {
+                field association-type;
+                field association-id;
+                field association-source;
+            }
+        }
+    }
+    tag lsp-last-recv {
+        type string;
+    }
+    tag lsp-last-sent {
+        type string;
+    }
+    tag lsp-pcu-recv {
+        type string;
+    }
+    tag lsp-last-err {
+        type string;
+    }
+    tag lsp-last-err-reason {
+        type string;
+    }
+    tag path-computation-client-lsp-ext-fs {
+        format pcc-lsp-ext-fs-format;
+    }
+    }
+    format pcc-lsp-ext-format {
+        fmtflag blank-line;
+        picture   "\\n
+LSP Name                  : @
+PathName                  : @
+From                      : @<<<<<<<<<<
+To                        : @<<<<<<<<<<<
+Path Setup Type           : @<<<<<<<
+State                     : @<<<<<<
+Active Path               : @
+Link Protection           : @
+LSP Type                  : @
+P2mp tree                 : @
+Path cspf status          : @
+Controller                : @
+Template                  : @
+PLSP-ID                   : @
+LSP-ID                    : @
+RSVP Error                : @
+Requested AutoBw          : @
+Record Route              : @
+From PCE ERO (received)   : @
+From RPD ERO (reported)   : @
+Configured ERO on PCC     : @\\n
+Bandwidth:
+        Intended          : @
+        Actual            : @
+Route Metric              : @
+Mapped Flowspec (FS-Ids)  : @\\n
+LSP Attributes:
+       Exclude-Any: @, Include-Any: @, Include-All: @
+       Setup Priority: @, Hold-Priority: @
+       Local Protection Bit: @
+Last Rpt/Pcreqest received from RPD at        : @
+Last Update sent to PCE at                    : @
+Last PcUpdate/PcCreate received from PCE at   : @
+Last error sent to PCE at                     : @
+Last 5 reasons to send Report/Pcrequest       : @";
+
+        line {
+            field lsp-name;
+        }
+        line {
+            field lsp-path-name;
+        }
+        line {
+            field lsp-src;
+        }
+        line {
+            field lsp-dst;
+        }
+        line {
+            field lsp-setup-type;
+        }
+        line {
+            field lsp-state;
+        }
+        line {
+            field lsp-active-path;
+        }
+        line {
+            field lsp-link;
+        }
+        line {
+            field lsp-type;
+        }
+        line {
+            field lsp-p2mp;
+        }
+        line {
+            field lsp-cspf;
+        }
+        line {
+            field lsp-ctrlr;
+        }
+        line {
+            field lsp-template;
+        }
+        line {
+            field lsp-plsp-id;
+        }
+        line {
+            field lsp-id;
+        }
+        line {
+            field lsp-rsvp-err;
+        }
+        line {
+            field lsp-abw;
+        }
+        line {
+            field lsp-rro;
+        }
+        line {
+            field lsp-pce-ero;
+        }
+        line {
+            field lsp-rpd-ero;
+        }
+        line {
+            field lsp-conf-ero;
+        }
+        line {
+            field lsp-intended-bw;
+        }
+        line {
+            field lsp-actual-bw;
+        }
+        line {
+            field lsp-route-metric;
+        }
+        line {
+            field lsp-mapped-flowspec;
+        }
+        line {
+            field lsp-exclude-any;
+            field lsp-include-any;
+            field lsp-include-all;
+        }
+        line {
+            field lsp-setup-prio;
+            field lsp-hold-prio;
+        }
+        line {
+            field lsp-local-protection;
+        }
+        line {
+            field lsp-last-recv;
+        }
+        line {
+            field lsp-last-sent;
+        }
+        line {
+            field lsp-pcu-recv;
+        }
+        line {
+            field lsp-last-err;
+        }
+        line {
+            field lsp-last-err-reason;
+        }
+    }
+}
+
+tag pcc-p2mp-lsp {
+    tag pcc-p2mp-lsp-entry {
+        flag multiple;
+            
+        tag lsp-name-p2mp {
+            type string;
+        }
+        tag template-name-p2mp {
+            type string;
+        }
+        tag lsp-status-p2mp {
+            type string;
+        }
+        tag lsp-id-p2mp {
+            type int;
+        }
+        tag lsp-type-p2mp {
+            type string;
+        }
+        tag lsp-controller-p2mp {
+            type string;
+        }
+        tag lsp-setup-type-p2mp {
+            type string;
+        }
+    }
+    format pcc-p2mp-lsp-format {
+        header "  Name                                Status            PLSP-Id  LSP-Type       Controller       Path-Setup-Type       Template \\n";
+        picture   "  @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<< @<<<<<<< @<<<<<<<<<<<<< @<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<@<<<<<<<<<<<<<<<";
+        line {
+            field lsp-name-p2mp;
+            field lsp-status-p2mp;
+            field lsp-id-p2mp;
+            field lsp-type-p2mp;
+            field lsp-controller-p2mp;
+            field lsp-setup-type-p2mp;
+            field template-name-p2mp;
+        }
+    }
+}
+
+tag path-computation-client-lsp-p2mp {
+    flag root;
+    tag pcc-p2mp-lsp-section{
+        flag multiple;
+        tag p2mp-name {
+            type string;
+        }
+        tag pcc-p2mp-lsp{
+            format pcc-p2mp-lsp-format;
+        }
+    }
+    format pcc-p2mp-name-format {
+       picture   "\\nP2MP LSP Name: @";
+        line {
+            field p2mp-name;
+        }
+    }
+}
+
+tag path-computation-client-lsp-traffic-steering {
+    flag root;
+
+    tag pcc-lsp-traffic-steering-entry {
+        flag multiple;
+
+        tag lsp-name {
+            type string;
+        }
+        tag lsp-p2mp {
+            type string;
+        }
+        tag lsp-plsp-id {
+            type int;
+        }
+        tag pce-id {
+            type string;
+        }
+        tag lsp-fs-id {
+            type string;
+        }
+    }
+    format path-computation-client-lsp-traffic-steering-format {
+        fmtflag blank-line;
+        picture "
+LSP Name    : @
+P2MP Tree   : @
+PLSP-ID     : @
+Controller  : @
+FS-ID's     : @";
+    
+        line {
+            field lsp-name;
+        }
+        line {
+            field lsp-p2mp;
+        }
+        line {
+            field lsp-plsp-id;
+        }
+        line {
+            field pce-id;
+        }
+        line {
+            field lsp-fs-id;
+        }
+    }
+}
+
+tag pcc-traffic-steering {
+    tag pcc-traffic-steering-entry {
+        flag multiple;
+            
+        tag fs-id {
+            type uint;
+        }
+        tag speaker-id {
+            type string;
+        }
+        tag afi {
+            type string;
+        }
+        tag flow-type {
+            type string;
+        }
+        tag route-distinguisher {
+            type string;
+        }
+        tag lsp-p2mp {
+            type string;
+        }
+        tag lsp {
+            type string;
+        }
+        tag source-prefix {
+            type string;
+        }
+        tag multi-group-prefix {
+            type string;
+        }
+        tag fs-state {
+            type string;
+        }
+        tag dest-prefix {
+            type string;
+        }
+    }
+    format path-computation-client-traffic-steering-format {
+        fmtflag blank-line;
+        picture "
+FS-ID                       : @
+Speaker-ID                  : @
+AFI                         : @
+Flow-Type                   : @
+    P2MP LSP                : @
+    LSP                     : @
+    Route Distinguisher     : @
+    Source Prefix           : @
+    Multicast Group Prefix  : @
+    State                   : @
+    Destination-Prefix      : @";
+        line {
+            field fs-id;
+        }
+        line {
+            field speaker-id;
+        }
+        line {
+            field afi;
+        }
+        line {
+            field flow-type;
+        }
+	line {
+            field lsp-p2mp;
+        }
+        line {
+            field lsp;
+        }
+        line {
+            field route-distinguisher;
+        }
+        line {
+            field source-prefix;
+        }
+        line {
+            field multi-group-prefix;
+        }
+        line {
+            field fs-state;
+        }
+        line {
+            field dest-prefix;
+        }
+    }
+}
+
+tag path-computation-client-traffic-steering {
+    flag root;
+    tag pcc-traffic-steering-section{
+        flag multiple;
+        tag pce-id {
+            type string;
+        }
+        tag pcc-traffic-steering{
+            format path-computation-client-traffic-steering-format;
+        }
+    }
+    format pcc-traffic-steering-format {
+       picture   "
+\\nPCE Traffic Steering: @\\n
+------------------------------------";
+        line {
+            field pce-id;
+        }
+    }
+}
+
+tag path-computation-client-lsp-retry_pending {
+    flag root;
+    tag pcc-lsp-retry-pending-entry {
+        flag multiple;
+            
+        tag lsp-retry-pending-name {
+            type string;
+        }
+        tag lsp-retry-pending-status {
+            type string;
+        }
+        tag lsp-retry-pending-id {
+            type int;
+        }
+        tag lsp-retry-pending-type {
+            type string;
+        }
+        tag lsp-retry-pending-controller {
+            type string;
+        }
+    }
+    format pcc-lsp-retry-pending_format {
+        header "\\n  Name             Status            LSP-Id   LSP-Type                Controller\\n";
+        picture   "  @<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<< @<<<<<<< @<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<";
+        line {
+            field lsp-retry-pending-name;
+            field lsp-retry-pending-status;
+            field lsp-retry-pending-id;
+            field lsp-retry-pending-type;
+            field lsp-retry-pending-controller;
+        }
+    }
+}
+
+tag pcc-status-sessions {
+    tag pcc-status-sessions-entry {
+        flag multiple;
+            
+        tag session-name {
+            type string;
+        }
+        tag session-type {
+            type string;
+        }
+        tag session-provisioning {
+            type string;
+        }
+        tag session-status {
+            type string;
+        }
+        tag session-up {
+            type int;
+        }
+    }
+    format pcc-status-sessions-format {
+        header "\\nSession              Type                        Provisioning   Status         Uptime\\n";
+        picture "  @<<<<<<<<<<<<<<<   @<<<<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<   @<<<<<<<<<<<    @<<<<<<<<<<<";
+        line {
+            field session-name;
+            field session-type;
+            field session-provisioning;
+            field session-status;
+            field session-up;
+        }
+    }
+
+    /* display error message in case of problem */
+    tag pccd-error-response {
+        tag pccd-error-code;
+        tag pccd-error-message;
+        format pccd-error-response-format;
+    }
+
+}
+
+tag pcc-status-lsp {
+    tag pcc-status-lsp-entry {
+        flag multiple;
+            
+        tag lsp-total {
+            type uint;
+        }
+        tag lsp-static {
+            type uint;
+        }
+        tag lsp-static-p2p {
+            type uint;
+        }
+        tag lsp-static-p2mp {
+            type uint;
+        }        
+        tag lsp-external {
+            type uint;
+        }
+        tag lsp-external-p2p {
+            type uint;
+        }
+        tag lsp-external-p2mp {
+            type uint;
+        }
+        tag lsp-provisioned-counter {
+            type uint;
+        }
+        tag lsp-provisioned-limit {
+            type uint;
+        }
+        tag lsp-orphan {
+            type uint;
+        }
+    }
+    format pcc-status-lsp-format {
+        header "\\nLSP Summary\\n";
+        picture "
+  Total number of LSPs        : @<<<<<<<<
+  Static LSPs                 : @<<<<<<<<
+  Externally controlled LSPs  : @<<<<<<<<
+  Externally provisioned LSPs : @/@ (current/limit)
+  Orphaned LSPs               : @<<<<<<<<";
+        line {
+            field lsp-total;
+            field lsp-static;
+            field lsp-external;
+            field lsp-provisioned-counter;
+            field lsp-provisioned-limit;
+            field lsp-orphan;
+        }
+    }
+
+    /* display error message in case of problem */
+    tag pccd-error-response {
+        tag pccd-error-code;
+        tag pccd-error-message;
+        format pccd-error-response-format;
+    }
+
+}
+
+tag pcc-status-pce {
+    tag pcc-status-pce-entry {
+        flag multiple;
+            
+        tag pce-name {
+            type string;
+        }
+        tag pce-delegated {
+            type uint;
+        }
+        tag pce-provisioned {
+            type uint;
+        }
+        tag pce-auth-keychain {
+            type string;
+        }
+        tag pce-auth-algorithm {
+            type string;
+        }
+        tag pce-auth-key {
+            type string;
+        }
+    }
+    format pcc-status-pce-format {
+        header "\\n";
+        picture "
+@
+  Delegated              : @<<<<<<<<<<<<<<<
+  Externally provisioned : @<<<<<<<<<<<<<<<
+  Authentication keychain: @<<<<<<<<<<<<<<<
+  Authentication algorithm:@<<<<<<<<<<<<<<<
+  Authentication key     : @<<<<<<<<<<<<<<<";
+        line {
+            field pce-name;
+            field pce-delegated;
+            field pce-provisioned;
+            field pce-auth-keychain;
+            field pce-auth-algorithm;
+            field pce-auth-key;
+        }
+    }
+
+    /* display error message in case of problem */
+    tag pccd-error-response {
+        tag pccd-error-code;
+        tag pccd-error-message;
+        format pccd-error-response-format;
+    }
+
+}
+
+tag path-computation-client-status {
+    flag root;
+    tag pcc-status-sessions {
+        format pcc-status-sessions-format;
+    }
+    tag pcc-status-lsp {
+        format pcc-status-lsp-format;
+    }
+    tag pcc-status-pce {
+        format pcc-status-pce-format;
+    }
+}
+
+tag pcc-status-lsp-extensive {
+    tag pcc-status-lsp-entry-ext {
+        flag multiple;
+            
+        tag lsp-total-ext {
+            type uint;
+        }
+        tag lsp-static-ext {
+            type uint;
+        }
+        tag lsp-static-p2p-ext {
+            type uint;
+        }
+        tag lsp-static-p2p-primary-ext {
+            type uint;
+        }
+        tag lsp-static-p2p-bypass-ext {
+            type uint;
+        }
+        tag lsp-static-p2mp-ext {
+            type uint;
+        }        
+        tag lsp-static-p2mp-trees-ext {
+            type uint;
+        }        
+        tag lsp-external-ext {
+            type uint;
+        }
+        tag lsp-external-p2p-ext {
+            type uint;
+        }
+        tag lsp-external-p2p-primary-ext {
+            type uint;
+        }
+        tag lsp-external-p2p-bypass-ext {
+            type uint;
+        }
+        tag lsp-external-p2mp-ext {
+            type uint;
+        }
+        tag lsp-external-p2mp-trees-ext {
+            type uint;
+        }
+        tag lsp-provisioned-counter-ext {
+            type uint;
+        }
+        tag lsp-provisioned-counter-p2p-ext {
+            type uint;
+        }
+        tag lsp-provisioned-counter-p2p-primary-ext {
+            type uint;
+        }
+        tag lsp-provisioned-counter-p2p-bypass-ext {
+            type uint;
+        }
+        tag lsp-provisioned-counter-p2mp-ext {
+            type uint;
+        }
+        tag lsp-provisioned-counter-p2mp-trees-ext {
+            type uint;
+        }
+        tag lsp-provisioned-limit-ext {
+            type uint;
+        }
+        tag lsp-orphan-ext {
+            type uint;
+        }
+    }
+    format pcc-status-lsp-extensive-format {
+        header "\\nLSP Summary\\n";
+        picture "
+  Total number of LSPs        : @<<<<<<<<
+  Static LSPs                 : @<<<<<<<<
+      P2P                     : @<<<<<<<<
+			      : @/@ (primary/bypass)	
+      P2MP                    : @/@ (branches/trees)
+  Externally controlled LSPs  : @<<<<<<<<
+      P2P                     : @<<<<<<<<
+			      : @/@ (primary/bypass)
+      P2MP                    : @/@ (branches/trees)
+  Externally provisioned LSPs : @/@ (current/limit)
+      P2P                     : @<<<<<<<<
+			      : @/@ (primary/bypass)
+      P2MP                    : @/@ (branches/trees)
+  Orphaned LSPs               : @<<<<<<<<";
+        line {
+            field lsp-total-ext;
+            field lsp-static-ext;
+            field lsp-static-p2p-ext;
+            field lsp-static-p2p-primary-ext;
+            field lsp-static-p2p-bypass-ext;
+            field lsp-static-p2mp-ext;
+            field lsp-static-p2mp-trees-ext;
+            field lsp-external-ext;
+            field lsp-external-p2p-ext;
+            field lsp-external-p2p-primary-ext;
+            field lsp-external-p2p-bypass-ext; 
+            field lsp-external-p2mp-ext;
+            field lsp-external-p2mp-trees-ext;
+            field lsp-provisioned-counter-ext;
+            field lsp-provisioned-limit-ext;
+            field lsp-provisioned-counter-p2p-ext;
+            field lsp-provisioned-counter-p2p-primary-ext;
+            field lsp-provisioned-counter-p2p-bypass-ext;
+            field lsp-provisioned-counter-p2mp-ext;
+            field lsp-provisioned-counter-p2mp-trees-ext;
+            field lsp-orphan-ext;
+        }
+    }
+
+    /* display error message in case of problem */
+    tag pccd-error-response {
+        tag pccd-error-code;
+        tag pccd-error-message;
+        format pccd-error-response-format;
+    }
+
+}
+
+tag pcc-status-pce-extensive {
+    tag pcc-status-pce-entry-ext {
+        flag multiple;
+            
+        tag pce-name-ext {
+            type string;
+        }
+        tag pce-delegated-ext {
+            type uint;
+        }
+        tag pce-delegated-p2p-ext {
+            type uint;
+        }
+        tag pce-delegated-p2p-primary-ext {
+            type uint;
+        }
+        tag pce-delegated-p2p-bypass-ext {
+            type uint;
+        }
+        tag pce-delegated-p2mp-ext {
+            type uint;
+        }
+        tag pce-delegated-p2mp-trees-ext {
+            type uint;
+        }
+        tag pce-provisioned-ext {
+            type uint;
+        }
+        tag pce-provisioned-p2p-ext {
+            type uint;
+        }
+        tag pce-provisioned-p2p-primary-ext {
+            type uint;
+        }
+        tag pce-provisioned-p2p-bypass-ext {
+            type uint;
+        }
+        tag pce-provisioned-p2mp-ext {
+            type uint;
+        }
+        tag pce-provisioned-p2mp-trees-ext {
+            type uint;
+        }
+        tag pce-auth-keychain-ext {
+            type string;
+        }
+        tag pce-auth-algorithm-ext {
+            type string;
+        }
+        tag pce-auth-key-ext {
+            type string;
+        }
+    }
+    format pcc-status-pce-extensive-format {
+       header "\\n";
+        picture "
+@
+  Delegated              : @<<<<<<<<<<<<<<<
+      P2P                : @<<<<<<<<<<<<<<<
+                         : @/@ (primary/bypass)
+      P2MP               : @/@ (branches/trees)
+  Externally provisioned : @<<<<<<<<<<<<<<<
+      P2P                : @<<<<<<<<<<<<<<<
+                         : @/@ (primary/bypass)
+      P2MP               : @/@ (branches/trees)
+  Authentication keychain: @<<<<<<<<<<<<<<<
+  Authentication algorithm:@<<<<<<<<<<<<<<<
+  Authentication key     : @<<<<<<<<<<<<<<<";
+        line {
+            field pce-name-ext;
+            field pce-delegated-ext;
+            field pce-delegated-p2p-ext;
+            field pce-delegated-p2p-primary-ext;
+            field pce-delegated-p2p-bypass-ext; 
+            field pce-delegated-p2mp-ext;
+            field pce-delegated-p2mp-trees-ext;
+            field pce-provisioned-ext;
+            field pce-provisioned-p2p-ext;
+            field pce-provisioned-p2p-primary-ext;
+            field pce-provisioned-p2p-bypass-ext;
+            field pce-provisioned-p2mp-ext;
+            field pce-provisioned-p2mp-trees-ext;
+            field pce-auth-keychain-ext;
+            field pce-auth-algorithm-ext;
+            field pce-auth-key-ext;
+        }
+    }
+
+    /* display error message in case of problem */
+    tag pccd-error-response {
+        tag pccd-error-code;
+        tag pccd-error-message;
+        format pccd-error-response-format;
+    }
+
+}
+
+tag pcc-status-nsr-extensive {
+    tag re-mode {
+        type string;
+    }
+    tag conn-status {
+        type string;
+    }
+    tag repl-status {
+        type string;
+    }
+
+    format pcc-status-nsr-extensive-format {
+        header "\\nNSR Summary\\n";
+        picture "
+  RE mode               : @<<<<<<<<
+  Mirror connection     : @<<<<<<<<
+  Replication status    : @<<<<<<<<";
+        line {
+            field re-mode;
+        }
+        line {
+            field conn-status;
+        }
+        line {
+            field repl-status;
+        }
+    }
+} 
+
+tag path-computation-client-status-extensive {
+    flag root;
+    tag pcc-status-sessions {
+        format pcc-status-sessions-format;
+    }
+    tag pcc-status-lsp-extensive {
+        format pcc-status-lsp-extensive-format;
+    }
+    tag pcc-status-pce-extensive {
+        format pcc-status-pce-extensive-format;
+    }
+    tag pcc-status-nsr-extensive {
+        format pcc-status-nsr-extensive-format;
+    }
+}
+
+tag path-computation-client-debug-info {
+    flag root hidden;
+    help "Debug information about path computation client";
+
+    tag pccd-rpd-connection-status {
+        help "Status of connection between PCCD and RPD";
+        type string;
+    }
+
+    format pcc-debug-info {
+        line {
+            field pccd-rpd-connection-status template "PCCD<->RPD connection status: %s";
+        }
+    }
+}
+
+tag path-computation-client-object-class {
+    flag root;
+    tag pcc-object-class-entry {
+        tag open-object {
+            type uint;
+        }
+        tag rp-object {
+            type uint;
+        }
+        tag nopath-object {
+            type uint;
+        }
+        tag endpoints-object {
+            type uint;
+        }
+        tag bandwidth-object {
+            type uint;
+        }
+        tag metric-object {
+            type uint;
+        }
+        tag ero-object {
+            type uint;
+        }
+        tag rro-object {
+            type uint;
+        }
+        tag lspa-object {
+            type uint;
+        }
+        tag iro-object {
+            type uint;
+        }
+        tag svec-object {
+            type uint;
+        }
+        tag notification-object {
+            type uint;
+        }
+        tag pceperror-object {
+            type uint;
+        }
+        tag loadbalancing-object {
+            type uint;
+        }
+        tag close-object {
+            type uint;
+        }
+        tag pathkey-object {
+            type uint;
+        }
+        tag lsp-object {
+            type uint;
+        }
+        tag srp-object {
+            type uint;
+        }
+        tag vendor-object {
+            type uint;
+        }
+        tag association-object {
+            type uint;
+        }
+        tag s2ls-object {
+            type uint;
+        }
+        tag pathattribute-object {
+            type uint;
+        }
+        tag flowspec-object {
+            type uint;
+        }
+    }
+    format pcc-object-class-format {
+       header "\\nObject types and associated values:\\n";
+        picture "
+    OPEN OBJECT          : @
+    RP OBJECT            : @
+    NOPATH OBJECT        : @
+    ENDPOINTS OBJECT     : @
+    BANDWIDTH OBJECT     : @
+    METRIC OBJECT        : @
+    ERO OBJECT           : @
+    RRO OBJECT           : @
+    LSPA OBJECT          : @
+    IRO OBJECT           : @
+    SVEC OBJECT          : @
+    NOTIFICATION OBJECT  : @
+    PCEPERROR OBJECT     : @
+    LOADBALANCING OBJECT : @
+    CLOSE OBJECT         : @
+    PATHKEY OBJECT       : @
+    LSP OBJECT           : @
+    VENDOR OBJECT        : @
+    ASSOCIATION OBJECT   : @
+    S2LS OBJECT          : @
+    PATHATTRIBUTE OBJECT : @
+    FLOWSPEC OBJECT      : @";
+        line {
+            field open-object;
+        }
+        line {
+            field rp-object;
+        }
+        line {
+            field nopath-object;
+        }
+        line {
+            field endpoints-object;
+        }
+        line {
+            field bandwidth-object;
+        }
+        line {
+            field metric-object;
+        }
+        line {
+            field ero-object;
+        }
+        line {
+            field rro-object;
+        }
+        line {
+            field lspa-object;
+        }
+        line {
+            field iro-object;
+        }
+        line {
+            field svec-object;
+        }
+        line {
+            field notification-object;
+        }
+        line {
+            field pceperror-object;
+        }
+        line {
+            field loadbalancing-object;
+        }
+        line {
+            field close-object;
+        }
+        line {
+            field pathkey-object;
+        }
+        line {
+            field lsp-object;
+        }
+        line {
+            field vendor-object;
+        }
+        line {
+            field association-object;
+        }
+        line {
+            field s2ls-object;
+        }
+        line {
+            field pathattribute-object;
+        }
+        line {
+            field flowspec-object;
+        }
+    }
+}
+
+tag path-computation-client-tlv-types {
+    flag root;
+    tag pcc-tlv-types-entry {
+        tag tlv-no-path-vector {
+            type uint;
+        }
+        tag tlv-overloaded-duration {
+            type uint;
+        }
+        tag tlv-req-missing {
+            type uint;
+        }
+        tag tlv-stateful-pce-capability {
+            type uint;
+        }
+        tag tlv-lsp-symbolic-name {
+            type uint;
+        }
+        tag tlv-ipv4-lsp-identifiers {
+            type uint;
+        }
+        tag tlv-ipv6-lsp-identifiers {
+            type uint;
+        }
+        tag tlv-lsp-update-error-code {
+            type uint;
+        }
+        tag tlv-ipv4-rsvp-error-spec {
+            type uint;
+        }
+        tag tlv-ipv6-rsvp-error-spec {
+            type uint;
+        }
+        tag tlv-lsp-db-version {
+            type uint;
+        }
+        tag tlv-node-identifier {
+            type uint;
+        }
+        tag tlv-sr-pce-capability {
+            type uint;
+        }
+        tag tlv-path-setup-type {
+            type uint;
+        }
+        tag tlv-te-path-binding {
+            type uint;
+        }
+        tag tlv-vendor-lsp-qualifier {
+            type uint;
+        }
+        tag tlv-vendor-lsp-bw {
+            type uint;
+        }
+        tag tlv-ipv4-p2mp-lsp-identifiers {
+            type uint;
+        }
+        tag tlv-ipv6-p2mp-lsp-identifiers {
+            type uint;
+        }
+        tag tlv-vendor-p2mp-tree-name {
+            type uint;
+        }
+        tag tlv-lsp-cleanup {
+            type uint;
+        }
+        tag tlv-vendor-local-cspf {
+            type uint;
+        }
+        tag tlv-sr-candidate-path-identifier {
+            type uint;
+        }
+        tag tlv-sr-preference {
+            type uint;
+        }
+        tag tlv-pce-flowspec-capability {
+            type uint;
+        }
+        tag tlv-flowspec-flowfilter {
+            type uint;
+        }
+        tag tlv-multipath-capability {
+            type uint;
+        }
+        tag tlv-path-attribute-weight {
+            type uint;
+        }
+        tag tlv-path-attribute-backup {
+            type uint;
+        }
+        tag tlv-path-attribute-color {
+            type uint;
+        }
+        tag tlv-vendor-route-metric {
+            type uint;
+        }
+        tag tlv-disjoint-configuration {
+            type uint;
+        }
+        tag tlv-disjoint-status {
+            type uint;
+        }
+    }
+    format pcc-tlv-types-format {
+       header "\\nTLV types and associated values:\\n";
+        picture "
+    TLV NO PATH VECTOR               : @
+    TLV OVERLOADED DURATION          : @
+    TLV REQ MISSING                  : @
+    TLV STATEFUL_PCE CAPABILITY      : @
+    TLV LSP SYMBOLIC NAME            : @
+    TLV IPV4 LSP IDENTIFIERS         : @
+    TLV IPV6 LSP IDENTIFIERS         : @
+    TLV LSP UPDATE ERROR CODE        : @
+    TLV IPV4 RSVP ERROR SPEC         : @
+    TLV IPV6 RSVP ERROR SPEC         : @
+    TLV LSP DB VERSION               : @
+    TLV NODE IDENTIFIER              : @
+    TLV SR PCE CAPABILITY            : @
+    TLV PATH SETUP TYPE              : @
+    TLV PATH SETUP TYPE              : @
+    TLV PATH SETUP TYPE              : @
+    TLV VENDOR LSP BW                : @
+    TLV IPV4 P2MP LSP IDENTIFIERS    : @
+    TLV IPV6 P2MP_LSP IDENTIFIERS    : @
+    TLV VENDOR P2MP TREE NAME        : @
+    TLV LSP CLEANUP                  : @
+    TLV VENDOR LOCAL CSPF            : @
+    TLV SR CANDIDATE PATH IDENTIFIER : @
+    TLV SR PREFERENCE                : @
+    TLV MULTIPATH CAPABILITY         : @
+    TLV PATH ATTRIBUTE WEIGHT        : @
+    TLV PATH ATTRIBUTE BACKUP        : @
+    TLV PATH ATTRIBUTE COLOR         : @
+    TLV PCE FLOWSPEC CAPABILITY      : @
+    TLV FLOWSPEC FLOWFILTER          : @
+    TLV VENDOR ROUTE METRIC          : @
+    TLV DISJOINT CONFIGURATION       : @
+    TLV DISJOINT STATUS              : @";
+        line {
+            field tlv-no-path-vector;
+        }
+        line {
+            field tlv-overloaded-duration;
+        }
+        line {
+            field tlv-req-missing;
+        }
+        line {
+            field tlv-stateful-pce-capability;
+        }
+        line {
+            field tlv-lsp-symbolic-name;
+        }
+        line {
+            field tlv-ipv4-lsp-identifiers;
+        }
+        line {
+            field tlv-ipv6-lsp-identifiers;
+        }
+        line {
+            field tlv-lsp-update-error-code;
+        }
+        line {
+            field tlv-ipv4-rsvp-error-spec;
+        }
+        line {
+            field tlv-ipv6-rsvp-error-spec;
+        }
+        line {
+            field tlv-lsp-db-version;
+        }
+        line {
+            field tlv-node-identifier;
+        }
+        line {
+            field tlv-sr-pce-capability;
+        }
+        line {
+            field tlv-path-setup-type;
+        }
+        line {
+            field tlv-te-path-binding;
+        }
+        line {
+            field tlv-vendor-lsp-qualifier;
+        }
+        line {
+            field tlv-vendor-lsp-bw;
+        }
+        line {
+            field tlv-ipv4-p2mp-lsp-identifiers;
+        }
+        line {
+            field tlv-ipv6-p2mp-lsp-identifiers;
+        }
+        line {
+            field tlv-vendor-p2mp-tree-name;
+        }
+        line {
+            field tlv-lsp-cleanup;
+        }
+        line {
+            field tlv-vendor-local-cspf;
+        }
+        line {
+            field tlv-sr-candidate-path-identifier;
+        }
+        line {
+            field tlv-sr-preference;
+        }
+        line {
+            field tlv-multipath-capability;
+        }
+        line {
+            field tlv-path-attribute-weight;
+        }
+        line {
+            field tlv-path-attribute-backup;
+        }
+        line {
+            field tlv-path-attribute-color;
+        }
+        line {
+            field tlv-pce-flowspec-capability;
+        }
+        line {
+            field tlv-flowspec-flowfilter;
+        }
+        line {
+            field tlv-vendor-route-metric;
+        }
+        line {
+            field tlv-disjoint-configuration;
+        }
+        line {
+            field tlv-disjoint-status;
+        }
+    }
+}
+
+tag path-computation-client-rfc-8231-compliance {
+    flag root;
+    tag rfc-status {
+        type string;
+    }
+    format pcc-rfc-8231-compliance-format {
+       header "\\nRFC 8231 compliance status: ";
+        picture "@";
+        line {
+            field rfc-status;
+        }
+    }
+}

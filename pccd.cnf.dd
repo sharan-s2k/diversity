@@ -1,0 +1,629 @@
+/*
+ * $Id$
+ *
+ * Copyright (c) 2011-2013, Juniper Networks, Inc.
+ * All rights reserved.
+ *
+ * DDL configuration definitions for Path Computation Client Daemon
+ */
+
+#define NON_C_SOURCE_FILE       /* No structs for non-C files */
+
+#include "common_include.dd"
+#include "trace_include.dd"
+
+#define PCCD_PCE_GROUP_ID_MAX 63 /* 64-1 '\0' */
+#define PCCD_PCE_ID_MAX 63 /* 64-1 '\0' */
+#define PCCD_MAX_PROVISIONED_LSPS_LIMIT 32000
+#define PCCD_MAX_PROVISIONED_LSPS_DEFAULT 16000
+#define PCCD_AUTH_KEY_MAX 128
+#define PCCD_AUTH_KEYCHAIN_MAX 128 /* Maximum length of key-chain name. */
+#define PCEP_TLV_TYPE_VALUE_MIN 1
+#define PCEP_TLV_TYPE_VALUE_MAX 65535
+#define PCEP_ASSOCIATION_TYPE_VALUE_MIN 1
+#define PCEP_ASSOCIATION_TYPE_VALUE_MAX 65535
+#define PCEP_CONFIGURABLE_PST_MIN 3
+#define PCEP_CONFIGURABLE_PST_MAX 255
+#define ERO_SUBOBJECT_CONFIGURABLE_MIN 2
+#define ERO_SUBOBJECT_CONFIGURABLE_MAX 127
+#define MAX_SRV6_SEGMENT_LIST_DEPTH 6
+#define MAX_SRMPLS_SEGMENT_LIST_DEPTH 16
+
+
+#define PCCD_TRACE \
+    object traceoptions { \
+    help "Path Computation Client Daemon trace options"; \
+    flag remove-empty; \
+    type pccd-traceoptions-type; \
+    require trace; \
+    } \
+
+#define PCEP_UNNAME_KEYCHAIN_AUTHENTICATION_ATTR \
+    help "Key chain name"; \
+    flag mustquote; \
+    type ranged string 1 .. PCCD_AUTH_KEYCHAIN_MAX; \
+    must "security authentication-key-chains key-chain $$"; \
+    must-message "Referenced key-chain must be defined"; \
+    must (! ".. authentication-key"); \
+    must-message "May not be configured with authentication-key"; \
+
+
+#define PCEP_KEYCHAIN_AUTHENTICATION_ATTR \
+attribute authentication-key-chain { \
+        PCEP_UNNAME_KEYCHAIN_AUTHENTICATION_ATTR \
+} \
+
+#define PCEP_TCP_AUTHENTICATION_PARAMS \
+attribute authentication-key { \
+    help "MD5 authentication key"; \
+    flag mustquote; \
+    type ranged unreadable 1 .. PCCD_AUTH_KEY_MAX; \
+    flag secret; \
+}   \
+attribute authentication-algorithm { \
+    help "Authentication algorithm name"; \
+    type enum string { \
+        choice md5 { \
+            help "Message Digest 5"; \
+        } \
+    } \
+    must (! ".. authentication-key"); \
+    must-message "May not be configured with authentication-key"; \
+} \
+PCEP_KEYCHAIN_AUTHENTICATION_ATTR; \
+
+#define PCEP_DEFAULT_TCP_AUTH_ALG \
+attribute authentication-algorithm { \
+    default md5; \
+} \
+
+#define PCEP_TCP_AUTHENTICATION_ALGORITHM_SANITY \
+attribute authentication-algorithm { \
+    must (".. authentication-key-chain"); \
+    must-message "May not be configured without authentication-key-chain"; \
+} \
+
+#define PCE_IANA_COMPLIANT_CONFIG  \
+        object object-class { \
+            hidden internal; \
+	    flag remove-empty; \
+            attribute association-old-value { \
+                help "Switch to old value for object class association"; \
+                type toggle; \
+                must (! ".. association-initial-draft-compliant"); \
+                must-message "To configure association-old-value, association-initial-draft-compliant must not be set"; \
+            } \
+\
+            attribute association-initial-draft-compliant { \
+                help "Draft-ananthakrishnan-pce-stateful-path-protection-00 compliant"; \
+                type toggle; \
+                must (! ".. association-old-value"); \
+                must-message "To configure association-initial-draft-compliant, association-old-value must not be set"; \
+            } \
+\
+            attribute s2ls-old-value { \
+                help "Switch to old value for object class s2ls"; \
+                type toggle; \
+            } \
+        } \
+\
+        object tlv-type { \
+            hidden internal; \
+	    flag remove-empty; \
+            attribute p2mp-ipv4-lsp-identifier-old-value { \
+                help "Switch to old value for tlv p2mp-ipv4-lsp-identifier"; \
+                type toggle; \
+            } \
+        } \
+\
+        attribute stateful-draft-07-compliant { \
+            help "Switch to stateful draft-07 complaint values"; \
+            hidden internal; \
+            type toggle; \
+        } \
+\
+        object srv6 { \
+            hidden internal; \
+            flag remove-empty; \
+            attribute srv6-pce-cap-sub-tlv-type { \
+                help "Srv6 pce-capability sub-tlv type"; \
+                type ranged uint PCEP_TLV_TYPE_VALUE_MIN .. PCEP_TLV_TYPE_VALUE_MAX; \
+            } \
+            attribute srv6-pst-type { \
+                help "Srv6 LSP path setup type"; \
+                type ranged uint PCEP_CONFIGURABLE_PST_MIN .. PCEP_CONFIGURABLE_PST_MAX; \
+            } \
+            attribute ero-subobject-type { \
+                help "Ero sub-object type"; \
+                type ranged uint ERO_SUBOBJECT_CONFIGURABLE_MIN .. ERO_SUBOBJECT_CONFIGURABLE_MAX; \
+            } \
+            attribute rro-subobject-type { \
+                help "Rro sub-object type"; \
+                type ranged uint ERO_SUBOBJECT_CONFIGURABLE_MIN .. ERO_SUBOBJECT_CONFIGURABLE_MAX; \
+            } \
+        } \
+\
+        object segment-routing-multipath { \
+            hidden internal; \
+            flag remove-empty; \
+            attribute pathattribute-color-tlv { \
+                help "Multipath path-attribute color tlv value"; \
+                type ranged uint PCEP_TLV_TYPE_VALUE_MIN .. PCEP_TLV_TYPE_VALUE_MAX; \
+            } \
+        } \
+
+object protocol-tracing-flags {
+    attribute messages {
+        help "Trace Path Computation Element Protocol messages (default: disabled)";
+        type toggle;
+    }
+    attribute objects {
+        help "Trace Path Computation Element Protocol objects (default: disabled)";
+        type toggle;
+    }
+    attribute tlvs {
+        help "Trace Path Computation Element Protocol tlvs and subobjects (default: disabled)";
+        type toggle;
+    }
+}
+
+#define PCE_COMMON_CONFIG  \
+        object pce-type  { \
+            help "Type of the PCE (e.g. stateful or stateless)"; \
+            flag oneliner remove-empty; \
+     \
+            attribute active { \
+                help "The PCE can modify delegated LSPs"; \
+                type toggle; \
+                must (".. stateful"); \
+                must-message "To configure active PCE, it must be set as stateful";  \
+            } \
+     \
+            choice statefullness { \
+                attribute stateful { \
+                    help "The PCE is stateful"; \
+                    type toggle; \
+                    default 1;\
+                }         \
+                attribute stateless { \
+                    help "The PCE is stateless"; \
+                    default 0;\
+                    type toggle; \
+                    hidden guru; \
+                } \
+            } \
+        } \
+ \
+        attribute pcupdate-empty-ero-action {\
+            help "Action to be taken when pcupdate is received with empty-ero for RSVP LSP";\
+            hidden guru;\
+            type enum uint {\
+                choice routing-decision {\
+                    help "Routing decision, let routing daemon decide to do local cspf or IGP path(default)";\
+                }\
+                choice send-err {\
+                    help "Send error message";\
+                }\
+                choice tear-down-path {\
+                    help "Tear down the LSP path";\
+                }\
+            }\
+        }\
+        attribute lsp-provisioning { \
+            help "The PCE is capable of provisioning LSPs"; \
+            type toggle; \
+            must (".. pce-type active"); \
+            must-message "To configure LSP provisioning, PCE must be set as stateful active"; \
+            must (! ".. no-advertise-pcc-owned-lsps"); \
+            must-message "To configure LSP provisioning, PCE must have no-advertise-pcc-owned-lsps flag turned off"; \
+        } \
+ \
+        attribute p2mp-lsp-report-capability { \
+            help "The PCE is capable of reporting P2MP  LSPs"; \
+            type toggle; \
+            must (".. pce-type active"); \
+            must-message "To report P2MP LSP , PCE must be set as stateful active"; \
+            must (! ".. no-advertise-pcc-owned-lsps"); \
+            must-message "To report P2MP LSP, PCE must have no-advertise-pcc-owned-lsps flag turned off"; \
+        } \
+ \
+        attribute p2mp-lsp-update-capability { \
+            help "The PCE is capable of update P2MP  LSPs"; \
+            type toggle; \
+            must (".. pce-type active"); \
+            must-message "To report P2MP LSP , PCE must be set as stateful active"; \
+            must (! ".. no-advertise-pcc-owned-lsps"); \
+            must-message "To report P2MP LSP, PCE must have no-advertise-pcc-owned-lsps flag turned off"; \
+        } \
+ \
+        attribute p2mp-lsp-init-capability { \
+            help "The PCE is capable of provisioning P2MP  LSPs"; \
+            type toggle; \
+            must (".. pce-type active"); \
+            must-message "To report P2MP LSP , PCE must be set as stateful active"; \
+            must (! ".. no-advertise-pcc-owned-lsps"); \
+            must-message "To report P2MP LSP, PCE must have no-advertise-pcc-owned-lsps flag turned off"; \
+        } \
+ \
+        attribute lsp-cleanup-timer { \
+            help "LSP cleanup time (default: 60)"; \
+            type ranged uint 0 .. 2147483647; \
+            units seconds; \
+        } \
+ \
+        attribute spring-capability { \
+            help "PCE is capable of supporting SPRING based provisioning"; \
+            type toggle; \
+            must (".. pce-type active"); \
+            must-message "To enable spring, PCE must be set as stateful active"; \
+            must (".. .. .. source-packet-routing lsp-external-controller"); \
+            must-message "To enable spring, spring-traffic-engineering lsp-external-controller must be configure";\
+        } \
+ \
+         attribute srv6-capability { \
+             help "PCE is capable of supporting SRv6 based provisioning"; \
+             type toggle; \
+             must (".. pce-type active"); \
+             must-message "To enable srv6, PCE must be set as stateful active"; \
+             must (".. .. .. source-packet-routing lsp-external-controller"); \
+             must-message "To enable srv6, source-packet-routing lsp-external-controller must be configured";\
+             must (".. .. .. source-packet-routing srv6"); \
+             must-message "To enable srv6, source-packet-routing srv6 must be configured";\
+         } \
+ \
+        attribute max-sid-depth { \
+            hidden deprecated; \
+            help "Max SID Depth (default: 5)"; \
+            default 5; \
+            type ranged uint 1 .. 16; \
+        } \
+ \
+        attribute lsp-retry-delegation { \
+            help "Retry LSP delegation process is enabled"; \
+            default 1;\
+            type toggle; \
+        } \
+ \
+        attribute lsp-retry-delegation-timer { \
+            help "LSP retry delegation timer in case delegation failure or re-delegate (default: 3600)"; \
+            type ranged uint 0 .. 2147483647; \
+            units seconds; \
+        } \
+ \
+        attribute start-tls-wait-timer { \
+            help "The time PCEP client waits for a StartTLS message (Default: 60)."; \
+            type ranged ubyte 60 .. 255; \
+            units seconds; \
+            default 60; \
+        } \
+ \
+        /* RFC 5440 part 8 */ \
+        object local-timers { \
+            help "Values for some local timers restrictions"; \
+            flag remove-empty; \
+            hidden guru; \
+ \
+            attribute min-keepalive { \
+                help "Minimum local keepalive (default: 1)"; \
+                type ranged ubyte 0 .. 255; \
+                units seconds; \
+            } \
+            attribute max-keepalive { \
+                help "Maximum local keepalive (default: 0)"; \
+                type ranged ubyte 0 .. 255; \
+                units seconds; \
+            } \
+            attribute max-deadtimer { \
+                help "Maximum local deadtimer (default: 0)"; \
+                type ranged ubyte 0 .. 255; \
+                units seconds; \
+            } \
+        }\
+\
+        object remote-timers { \
+            help "Values for some remote timers restrictions"; \
+            flag remove-empty; \
+            hidden guru; \
+\
+            attribute min-keepalive { \
+                help "Minimum PCE keepalive (default: 1)"; \
+                type ranged ubyte 0 .. 255; \
+                units seconds; \
+            } \
+            attribute max-keepalive { \
+                help "Maximum PCE keepalive (default: 0)"; \
+                type ranged ubyte 0 .. 255; \
+                units seconds; \
+            } \
+        }\
+\
+        attribute request-timer { \
+        help "The amount of time path computation client waits for a reply before resending its requests"; \
+        type ranged ushort 0 .. 65535; \
+        units seconds; \
+        }\
+\
+        attribute max-unknown-requests { \
+        help "Max unknown requests per minute after which the connection will be closed. 0 - disabled"; \
+        type ranged uint 0 .. 16384; \
+        units requests-per-minute; \
+        default 5; \
+        } \
+\
+        attribute max-unknown-messages { \
+        help "Max unknown messages per minute after which the connection will be closed. 0 - disabled"; \
+        type ranged uint 0 .. 16384; \
+        units messages-per-minute; \
+        default 5;\
+        }\
+        /* End of RFC 5440 reference */ \
+\
+        object traceoptions { \
+            TRACEOPTIONS_FILE; \
+            help "Path Computation Element Protocol trace options"; \
+            flag remove-empty; \
+            require trace; \
+            object "flag" { \
+                help "Area of Path Computation Client Daemon to enable debugging output"; \
+                flag setof list; \
+                flag oneliner; \
+                attribute flag-name { \
+                    flag identifier nokeyword; \
+                    type enum uint { \
+                        choice pcep { \
+                            help "Trace Path Computation Element protocol"; \
+                            define PCCD_DBGSRC_PCEP; \
+                        } \
+                        choice "all" { \
+                            help "Trace all areas of Path Computation Client Daemon  code"; \
+                            define PCCD_DBGSRC_PCEP_ALL; \
+                        } \
+                    } \
+                } \
+            } \
+        } \
+\
+        /* PCEP Extensions for Stateful PCE */ \
+        attribute no-advertise-pcc-owned-lsps { \
+            help "Don't advertise locally controlled LSPs"; \
+            type toggle; \
+            hidden guru; \
+        } \
+\
+        attribute delegation-cleanup-timeout { \
+             help "Return control of LSPs or Re-delegation time after PCEP session disconnect (default: 30)"; \
+            type ranged uint 0 .. 2147483647; \
+            units seconds; \
+        } \
+\
+        attribute delegation-setup-timeout { \
+            help "LSP delegation retry timer (default: 30)"; \
+            hidden guru; \
+            type ranged ushort 0 .. 600; \
+            units seconds; \
+        } \
+        /* End of PCEP Extensions for Stateful PCE */ \
+\
+        attribute disable-tlv-path-binding { \
+            help "Disable Path Binding TLV in PCReport message"; \
+            hidden internal; \
+            type toggle; \
+        } \
+\
+        attribute pce-traffic-steering { \
+            help "Enable PCE traffic steering (FlowSpec Capability)"; \
+            type toggle; \
+        } \
+
+object pccd-traceoptions-type {
+    help "Trace options for PCCD";
+
+    TRACEOPTIONS_FILE; 
+
+    object "flag" {
+        help "Area of PCCD to enable debugging output";
+        flag setof list;
+        flag oneliner;
+        
+        attribute flag-name {
+            flag identifier nokeyword;
+            type enum uint {
+                choice pccd-main {
+                    help "Trace main module";
+                    define PCCD_DBGSRC_MAIN;
+                }
+                choice pccd-config {
+                    help "Trace configuration parsing operations";
+                    define PCCD_DBGSRC_CFG;
+                }
+                choice pccd-core {
+                    help "Trace PCCD's core operations";
+                    define PCCD_DBGSRC_CORE;
+                }
+                choice pccd-ui {
+                    help "Trace user interface handling";
+                    define PCCD_DBGSRC_UI;
+                }
+                choice pccd-rpd {
+                    help "Trace communication with RPD";
+                    define PCCD_DBGSRC_RPD;
+                }
+                choice pccd-functions {
+                    help "Trace function entries/outs";
+                    define PCCD_DBGSRC_FN;
+                }
+                choice pccd-nsr {
+                    help "Trace NSR operations";
+                    define PCCD_DBGSRC_NSR;
+                }
+                choice "all" {
+                    help "Trace all areas of PCCD code";
+                    define PCCD_DBGSRC_ALL;
+                }
+            }
+        }
+    }
+}
+
+object juniper-protocols {
+    object pcep {
+        help "Path computation client configuration";
+        product-exclude EX92XX_SERIES;
+        ACTION_MATCH_NON_LOGICAL_ROUTER;
+        flag remove-empty;
+        license PCEP;
+        notify DNAME_PCCD;
+        MGD_EVO_PROP_ENABLE_DAEMON(daap, DNAME_PCCD);
+        action enable-process pccd;
+            product PRODUCT_M_AND_T_SERIES PTX_SERIES ACX_SERIES ACX5K_SERIES PVI_MODEL FX_SERIES_NG JSRXNLE_SRX_3XX SRXMR srxtvp;
+        
+        attribute message-rate-limit {
+            help "Messages per minute rate that path computation client will handle at maximum. 0 - disabled";
+            type ranged ushort 0 .. 16384;
+        }
+
+        attribute update-rate-limit {
+            help "Updates per minute rate that path computation client will handle at maximum. 0 - disabled";
+            type ranged ushort 0 .. 16384;
+        }
+        attribute max-provisioned-lsps {
+            help "Defines max count of externally provisioned LSPs over all conected PCEs (default: 16000)";
+            type ranged uint 1 .. PCCD_MAX_PROVISIONED_LSPS_LIMIT;
+            default PCCD_MAX_PROVISIONED_LSPS_DEFAULT;
+        }
+
+        attribute maximum-srmpls-segment-list-depth {
+            help "Maximum segment list depth for SRMPLS LSP (default: 5)";
+            default 5;
+            type ranged uint 1 .. MAX_SRMPLS_SEGMENT_LIST_DEPTH;
+        }
+
+        attribute maximum-srv6-segment-list-depth {
+            help "Maximum segment list depth for SR LSP";
+            type ranged uint 1 .. MAX_SRV6_SEGMENT_LIST_DEPTH;
+        }
+
+       attribute propagate-max-segmentlist {
+            help " Enable multipath capability to be sent in LSP object";
+            type toggle
+        }
+
+       attribute propagate-lsp-max-segment-list-depth {
+            help "Send maximum segment list depth for LSP";
+            type toggle
+        }
+
+        attribute disable-multipath-capability {
+            help " Disable multipath capability in open message for all pcep connections";
+            type toggle
+        }
+
+        attribute diversity-association-capability {
+            help " Enable disjoint association in open message for all pcep connections";
+            type toggle
+        }
+
+        attribute tls-strict {
+            help "Enable TLSv1.2 for all PCEP connections";
+            type toggle
+        }
+
+        object pce-group {
+            help "PCE group definition";
+            flag setof list delta-list remove-empty;
+        
+            attribute group-id {
+                help "PCE group identifier";
+                flag nokeyword identifier;
+                type ranged string 1 .. PCCD_PCE_GROUP_ID_MAX;
+                match "!all";
+                match-message "'all' is invalid name for a PCE group";
+            }
+        
+            PCE_COMMON_CONFIG
+        }
+        
+        object pce {
+            flag allow-struct;
+            help "Per PCE configuration"; 
+            flag setof list delta-list remove-empty; 
+            action propagate mgd mgd_prop_pcep_keys_to_keyadmin;
+        
+            attribute pce-id { 
+                help "PCE unique identifier"; 
+                flag nokeyword identifier; 
+                type ranged string 1 .. PCCD_PCE_ID_MAX;
+                match "!all"; 
+                match-message "'all' is invalid name for a PCE"; 
+            } 
+
+	    attribute local-address {
+		help "Address of local end of PCEP session";
+		type ipv4addr;
+	    }
+
+	    attribute local-ipv6-address {
+		help "IPv6 Address of local end of PCEP session";
+		type ipv6addr;
+	    }
+
+	    attribute destination-ipv4-address {
+		help "IPV4 Address of PCE";
+		type ipv4addr;
+		must (! ".. local-ipv6-address");
+		must-message "To configure destination-ipv4-address, PCE config can not have local-ipv6-address configured";
+		must (unique ".. .. pce <*> destination-ipv4-address $$");
+		must-message "Multiple PCEs with the same destination IP address are not allowed";
+	    }
+
+	    attribute destination-ipv6-address {
+		help "IPv6 Address of PCE";
+		type ipv6addr;
+		must (! ".. destination-ipv4-address");
+		must-message "To configure destination-ipv6-address, PCE config must not have destination-ipv4-address configured";
+		must (! ".. local-address");
+		must-message "To configure destination-ipv6-address, PCE config can not have ipv4 local-address configured";
+		must (unique ".. .. pce <*> destination-ipv6-address $$");
+		must-message "Multiple PCEs with the same destination IPv6 address are not allowed";
+	    }
+
+            attribute destination-port {
+                help "Destination TCP port PCE is listening on";
+                type ranged ushort 1 .. 65535;
+                default 4189;
+            }
+            
+            attribute delegation-priority { 
+                help "This PCE's priority among configured stateful PCEs in one pce-group"; 
+                type ranged ushort 1 .. 65535; 
+                must (unique ".. .. pce <*> delegation-priority $$");
+                must-message "The delegation-priority can be set only for stateful PCE, and must be unique";
+            } 
+        
+            attribute request-priority {
+                help "This PCE's priority among configured stateless PCEs in one pce-group";
+                type ranged ushort 1 .. 65535; 
+                must (unique ".. .. pce <*> request-priority $$");
+                must-message "The request-timer can be set only for stateless PCE, and must be unique";
+            }
+        
+            attribute pce-group {
+                help "Assign this PCE to defined pce group. PCE will inherit default values from the pce-group";
+                type string;
+                must (".. .. pce-group $$");
+                must-message "The specified pce-group id must exist";
+                path-reference "protocols pcep pce-group";
+            }
+
+            PCEP_TCP_AUTHENTICATION_PARAMS;
+            PCEP_TCP_AUTHENTICATION_ALGORITHM_SANITY;
+        
+            PCE_COMMON_CONFIG
+        }
+
+        PCE_IANA_COMPLIANT_CONFIG
+        
+        PCCD_TRACE
+    }
+}
+
